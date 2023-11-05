@@ -2,6 +2,7 @@ import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import * as path from 'path';
 import AutoImport from 'unplugin-auto-import/vite';
+import eslint from 'vite-plugin-eslint';
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -11,6 +12,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
+      eslint({ lintOnStart: true, cache: false }), // 项目运行时进行eslint检查
       ReactivityTransform(), // 启用响应式语法糖 $ref ...
       // 解决 `import { ref , reactive ..... } from 'vue'` 大量引入的问题
       AutoImport({
