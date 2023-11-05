@@ -50,4 +50,8 @@ app.use(pinia);
 import store from '@/store';
 app.config.globalProperties.$store = store;
 
+// 配置全局api
+import api from '@/api';
+app.config.globalProperties.$api = api;
+
 app.mount('#app');

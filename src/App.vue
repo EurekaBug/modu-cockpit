@@ -14,6 +14,9 @@
   <h1>{{ $store.test.useTestStore().count }}</h1>
   <button @click="$store.test.useTestStore().add">click</button>
   <button @click="clear">click</button>
+
+  <!-- <button @click="handleClick">click</button>
+  <h1>{{ res }}</h1> -->
 </template>
 <script setup>
 import { getCurrentInstance } from 'vue';
@@ -21,18 +24,24 @@ import { toRefs } from 'vue';
 const { proxy } = getCurrentInstance();
 let useTestStore = proxy.$store.test.useTestStore();
 let { count } = toRefs(useTestStore); // 响应式
-let { add, $reset } = useTestStore;
 
+let { add, $reset } = useTestStore;
 function handleClick() {
   add();
 }
 function clear() {
   $reset();
-  // window.localStorage.clear();
 }
+
 // async function handleClick() {
 //   proxy.submitOk('保存成功');
 //   proxy.submitFail('操作失败');
+// }
+
+// let res = $ref(null);
+
+// async function handleClick() {
+//   res = await proxy.$api.demo.time();
 // }
 </script>
 
