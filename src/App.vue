@@ -1,10 +1,10 @@
 <template>
   <h1>Welcome to Modu-Cockpit!</h1>
-  <!-- <p>
+  <p>
     <router-link to="/test">Go to Home</router-link>
     <router-link to="/about">Go to About</router-link>
   </p>
-  <router-view> </router-view> -->
+  <router-view> </router-view>
   <h1>{{ $filters.sexName(1) }}</h1>
   <button @click="handleClick">click</button>
 </template>

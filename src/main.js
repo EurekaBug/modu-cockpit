@@ -13,8 +13,18 @@ import mixin from '@/utils/mixin';
 //引入全局过滤器
 import { filters } from '@/utils/filters';
 
+//引入element-plus
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css';
+
 const app = createApp(App);
 app.config.globalProperties.$filters = filters;
+app.use(ElementPlus);
+// 注册所有图标
+import * as ElementPlusIconsVue from '@element-plus/icons-vue';
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 app.use(router);
 app.mixin(mixin);
 app.mount('#app');
