@@ -19,12 +19,35 @@ import 'element-plus/dist/index.css';
 
 const app = createApp(App);
 app.config.globalProperties.$filters = filters;
-app.use(ElementPlus);
 // 注册所有图标
+app.use(ElementPlus);
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
 app.use(router);
 app.mixin(mixin);
+
+// pinia
+import { createPinia } from 'pinia';
+const pinia = createPinia();
+import { createPersistedState } from 'pinia-plugin-persistedstate';
+pinia.use(
+  createPersistedState({
+    auto: true, // 启用所有 Store 默认持久化
+  }),
+);
+// 重写 $reset 方法 => 解决组合式api中无法使用问题
+// pinia.use(({ store }) => {
+//   const initialState = JSON.parse(JSON.stringify(store.$state));
+//   store.$reset = () => {
+//     store.$patch(initialState);
+//   };
+// });
+app.use(pinia);
+
+// store
+import store from '@/store';
+app.config.globalProperties.$store = store;
+
 app.mount('#app');

@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       vue(),
-      eslint({ lintOnStart: true, cache: false }), // 项目运行时进行eslint检查
+      // eslint({ lintOnStart: true, cache: false }), // 项目运行时进行eslint检查
       ReactivityTransform(), // 启用响应式语法糖 $ref ...
       // 解决 `import { ref , reactive ..... } from 'vue'` 大量引入的问题
       AutoImport({

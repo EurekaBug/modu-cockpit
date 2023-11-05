@@ -1,21 +1,39 @@
 <template>
   <h1>Welcome to Modu-Cockpit!</h1>
-  <p>
+  <!-- <p>
     <router-link to="/test">Go to Home</router-link>
     <router-link to="/about">Go to About</router-link>
   </p>
-  <router-view> </router-view>
-  <h1>{{ $filters.sexName(1) }}</h1>
+  <router-view> </router-view> -->
+  <!-- <h1>{{ $filters.sexName(1) }}</h1> -->
+  <!-- <button @click="handleClick">click</button> -->
+
+  <h1>{{ count }}</h1>
   <button @click="handleClick">click</button>
+  <br />
+  <h1>{{ $store.test.useTestStore().count }}</h1>
+  <button @click="$store.test.useTestStore().add">click</button>
+  <button @click="clear">click</button>
 </template>
 <script setup>
 import { getCurrentInstance } from 'vue';
+import { toRefs } from 'vue';
 const { proxy } = getCurrentInstance();
+let useTestStore = proxy.$store.test.useTestStore();
+let { count } = toRefs(useTestStore); // 响应式
+let { add, $reset } = useTestStore;
 
-async function handleClick() {
-  proxy.submitOk('保存成功');
-  proxy.submitFail('操作失败');
+function handleClick() {
+  add();
 }
+function clear() {
+  $reset();
+  // window.localStorage.clear();
+}
+// async function handleClick() {
+//   proxy.submitOk('保存成功');
+//   proxy.submitFail('操作失败');
+// }
 </script>
 
 <style scoped></style>
