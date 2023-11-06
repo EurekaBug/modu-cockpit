@@ -54,4 +54,10 @@ app.config.globalProperties.$store = store;
 import api from '@/api';
 app.config.globalProperties.$api = api;
 
+// 全局组件注册
+import myComponent from '@/components/index';
+Object.keys(myComponent).forEach((key) => {
+  app.component(key, myComponent[key]);
+});
+
 app.mount('#app');

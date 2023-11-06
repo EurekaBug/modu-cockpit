@@ -15,6 +15,8 @@
   <button @click="$store.test.useTestStore().add">click</button>
   <button @click="clear">click</button>
 
+  <!-- 全局组件 -->
+  <base-no-data>组件数据</base-no-data>
   <!-- <button @click="handleClick">click</button>
   <h1>{{ res }}</h1> -->
 </template>
