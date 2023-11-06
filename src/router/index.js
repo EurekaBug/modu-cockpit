@@ -2,13 +2,20 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 
 // 本地静态路由
 export const constantRoutes = [
-  //   {
-  //     path: '/login',
-  //     component: () => import('@/views/login/index.vue'),
-  //     meta: {
-  //       isParentView: true,
-  //     },
-  //   },
+  {
+    path: '/',
+    component: () => import('@/views/dashboard/index.vue'),
+    meta: {
+      isParentView: true,
+    },
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index.vue'),
+    meta: {
+      isParentView: true,
+    },
+  },
   {
     path: '/test',
     component: () => import('@/views/test/index.vue'),
