@@ -5,9 +5,9 @@ export const constantRoutes = [
   {
     path: '/',
     component: () => import('@/views/dashboard/index.vue'),
-    meta: {
-      isParentView: true,
-    },
+    // meta: {
+    //   isParentView: true,
+    // },
   },
   {
     path: '/login',

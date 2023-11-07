@@ -8,7 +8,7 @@ import store from '@/store';
 export const useUserStore = defineStore('user', () => {
   const route = useRoute();
   const router = useRouter();
-  let isLogin = ref(false);
+  let isLogin = ref(true);
   let tokenObj = ref({});
   let userObj = ref({});
   let routerMap = ref({}); // 全路径'/system/user' -> 路由信息
