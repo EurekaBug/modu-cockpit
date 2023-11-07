@@ -63,4 +63,10 @@ Object.keys(myComponent).forEach((key) => {
 //路由权限
 // import '@/router/permission.js';
 
+// 注册自定义指令（eg:按钮权限）
+import directive from '@/directive/index.js';
+Object.keys(directive).forEach((key) => {
+  app.directive(key, directive[key]);
+});
+
 app.mount('#app');
