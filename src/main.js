@@ -60,4 +60,7 @@ Object.keys(myComponent).forEach((key) => {
   app.component(key, myComponent[key]);
 });
 
+//路由权限
+import '@/router/permission.js';
+
 app.mount('#app');
