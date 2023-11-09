@@ -1,6 +1,6 @@
 import request from '@/utils/request';
 
-const BASE_API = '/web/api/system/user';
+const BASE_API = '/api';
 
 export default {
   // 获取验证码
@@ -13,7 +13,7 @@ export default {
   // 登录
   login(data) {
     return request({
-      url: '/auth/login',
+      url: BASE_API + '/login',
       method: 'post',
       data,
       // headers: {

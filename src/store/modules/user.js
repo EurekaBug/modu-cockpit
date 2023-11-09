@@ -8,7 +8,7 @@ import store from '@/store';
 export const useUserStore = defineStore('user', () => {
   const route = useRoute();
   const router = useRouter();
-  let isLogin = ref(true);
+  let isLogin = ref(false);
   let tokenObj = ref({});
   let userObj = ref({});
   let routerMap = ref({}); // 全路径'/system/user' -> 路由信息
@@ -19,12 +19,13 @@ export const useUserStore = defineStore('user', () => {
       return;
     }
     let result = await sysUserApi.login({
-      username: loginObj.username.trim(),
+      account: loginObj.account.trim(),
       password: loginObj.password.trim(),
     });
+    console.log('登录成功：', result);
     isLogin.value = true;
     tokenObj.value = result.data;
-    getUserInfo();
+    // getUserInfo();
   }
 
   // 退出登录
