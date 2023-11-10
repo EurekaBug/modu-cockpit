@@ -19,6 +19,9 @@ export const constantRoutes = [
   {
     path: '/test',
     component: () => import('@/views/test/index.vue'),
+    meta: {
+      isParentView: true,
+    },
   },
   {
     // path: '/404',
