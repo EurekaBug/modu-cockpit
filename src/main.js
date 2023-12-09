@@ -38,12 +38,12 @@ pinia.use(
   }),
 );
 // 重写 $reset 方法 => 解决组合式api中无法使用问题
-// pinia.use(({ store }) => {
-//   const initialState = JSON.parse(JSON.stringify(store.$state));
-//   store.$reset = () => {
-//     store.$patch(initialState);
-//   };
-// });
+pinia.use(({ store }) => {
+  const initialState = JSON.parse(JSON.stringify(store.$state));
+  store.$reset = () => {
+    store.$patch(initialState);
+  };
+});
 app.use(pinia);
 
 // store

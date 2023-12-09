@@ -42,9 +42,9 @@ export const useUserStore = defineStore('user', () => {
     window.sessionStorage.clear();
 
     // 跳转登录页
-    router.push(`/login?redirect=${route.fullPath}`);
+    router.push('/login');
     // window.location.href = '/login';
-    location.reload(); // 强制刷新页面
+    // location.reload(); // 强制刷新页面
   }
 
   // 获取用户 & 权限数据
