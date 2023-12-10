@@ -34,7 +34,7 @@ onMounted(()=> {
   // 判断条件
   if (isLogin) {
     console.log('已登录');
-    proxy.$router.push({ path: '/' });
+    proxy.$router.push({ path: '/dashboard' });
   }
 });
 function validatePassword(rule, value, callback) {
@@ -48,7 +48,7 @@ function handleLogin() {
   // proxy.$router.push({ path: '/' });
   // console.log('loginForm: ', loginForm);
   login(loginForm).then(() => {
-    proxy.$router.push({ path: '/' });
+    proxy.$router.push({ path: '/dashboard' });
   });
 
   // proxy.$refs.loginFormRef.validate((valid) => {

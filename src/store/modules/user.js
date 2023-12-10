@@ -42,7 +42,7 @@ export const useUserStore = defineStore('user', () => {
     window.sessionStorage.clear();
 
     // 跳转登录页
-    router.push('/login');
+    router.push('/');
     // window.location.href = '/login';
     // location.reload(); // 强制刷新页面
   }

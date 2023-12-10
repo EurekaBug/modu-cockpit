@@ -4,17 +4,17 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 export const constantRoutes = [
   {
     path: '/',
-    component: () => import('@/views/dashboard/index.vue'),
-    // meta: {
-    //   isParentView: true,
-    // },
-  },
-  {
-    path: '/login',
     component: () => import('@/views/login/index.vue'),
     meta: {
       isParentView: true,
     },
+  },
+  {
+    path: '/dashboard',
+    component: () => import('@/views/dashboard/index.vue'),
+    // meta: {
+    //   isParentView: true,
+    // },
   },
   {
     path: '/test',
