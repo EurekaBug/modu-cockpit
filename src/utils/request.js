@@ -25,7 +25,7 @@ service.interceptors.request.use(
       // 租户ID
       config.headers['TENANT_ID'] = '1';
       // 微信公众号appId
-      config.headers['appId'] = localStorage.get('appId');
+      // config.headers['appId'] = localStorage.get('appId');
     }
     return config;
   },
@@ -38,7 +38,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response) => {
     const res = response.data;
-    const { code, msg } = res;
+    const { code, message } = res;
     if (code === 200) {
       return res;
     } else {
@@ -47,17 +47,17 @@ service.interceptors.response.use(
         handleError();
       } else {
         ElMessage({
-          message: msg || '系统出错',
+          message: message || '系统出错',
           type: 'error',
           duration: 5 * 1000,
         });
       }
-      return Promise.reject(new Error(msg || 'Error'));
+      return Promise.reject(new Error(message || 'Error'));
     }
   },
   (error) => {
     console.log('请求异常：', error);
-    const { msg } = error.response.data;
+    const { message } = error.response.data;
     // 未认证
     if (error.response.status === 401) {
       handleError();
@@ -67,7 +67,7 @@ service.interceptors.response.use(
         type: 'error',
         duration: 5 * 1000,
       });
-      return Promise.reject(new Error(msg || 'Error'));
+      return Promise.reject(new Error(message || 'Error'));
     }
   },
 );

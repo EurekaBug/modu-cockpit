@@ -23,12 +23,20 @@
 <script setup>
 import { getCurrentInstance } from 'vue';
 const { proxy } = getCurrentInstance();
-const { login } = proxy.$store.user.useUserStore();
+const { login,isLogin } = proxy.$store.user.useUserStore();
 const loginForm = $ref({});
 const loginRules = {
   user: [{ required: true, trigger: 'change', message: '请输入账号' }],
   password: [{ required: true, trigger: 'change', validator: validatePassword }],
 };
+// 在mounted生命周期钩子函数中进行判断
+onMounted(()=> {
+  // 判断条件
+  if (isLogin) {
+    console.log('已登录');
+    proxy.$router.push({ path: '/' });
+  }
+});
 function validatePassword(rule, value, callback) {
   if (!value || value.length < 6) {
     callback(new Error('密码最少6位'));
