@@ -10,6 +10,14 @@ export default {
       method: 'get',
     });
   },
+  // 注册
+  register(data) {
+    return request({
+      url: BASE_API + '/register',
+      method: 'post',
+      data,
+    });
+  },
   // 登录
   login(data) {
     return request({
