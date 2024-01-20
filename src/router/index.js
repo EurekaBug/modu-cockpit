@@ -12,9 +12,9 @@ export const constantRoutes = [
   {
     path: '/dashboard',
     component: () => import('@/views/dashboard/index.vue'),
-    // meta: {
-    //   isParentView: true,
-    // },
+    meta: {
+      isParentView: true,
+    },
   },
   {
     path: '/test',
