@@ -1,18 +1,9 @@
 <template>
-  <div>首页</div>
-  <el-button v-has-perm="'sys:user:add'" type="primary">添加</el-button>
-  <!-- //夜间模式
-  <el-button :icon="isDark ? 'Moon' : 'Sunny'" circle @click="toggleDark" /> -->
-  <!-- <el-button :icon="Sunny" circle @click="toggleDark" /> -->
   <!-- 主题切换 -->
-  <el-switch
-    v-model="isDark"
-    inline-prompt
-    size="large"
-    style="--el-switch-on-color: #f2f2f2; --el-switch-off-color: #2c2c2c; --el-switch-border-color: #e4e6ec"
-    :active-action-icon="Moon"
-    :inactive-action-icon="Sunny"
-    @change="toggleDark" />
+  <el-row>
+    <div class="title">主题转换：</div>
+    <el-switch v-model="isDark" size="large" inline-prompt style="--el-switch-on-color: #2c2c2c; --el-switch-border-color: #e4e6ec" :active-icon="Moon" :inactive-icon="Sunny" @change="toggleDark" />
+  </el-row>
 </template>
 <script setup>
 import { Moon, Sunny } from '@element-plus/icons-vue';
@@ -33,8 +24,12 @@ const toggleDark = useToggle(isDark);
 //   valueLight: 'light',
 // });
 </script>
-<style lang="scoped">
-/* #app > div:nth-child(2) > div.el-switch.el-switch--large.is-checked > span > div.el-switch__action{
-  background-color: #2c2c2c;
-} */
+<style lang="scss" scoped>
+.title {
+  //垂直居中
+  line-height: 40px;
+  margin-left: 10px;
+  font-size: 16px;
+  color: #606266;
+}
 </style>
