@@ -46,6 +46,8 @@ pinia.use(({ store }) => {
 });
 app.use(pinia);
 
+import 'element-plus/theme-chalk/dark/css-vars.css';
+
 // store
 import store from '@/store';
 app.config.globalProperties.$store = store;
