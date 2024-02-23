@@ -13,12 +13,12 @@ axios.post('http://localhost:3007/data/compile', {
       {
         tag: 'h1',
         props: {
-          title: 'Hello, World!',
+          title: 'String',
         },
       },
       {
         tag: 'h2',
-        state: {
+        states: {
           count: 150,
         },
       },
@@ -36,6 +36,7 @@ axios.post('http://localhost:3007/data/compile', {
             'handleLogBtnClick()': "console.log('count.value')",
           },
         },
+        text: 'Add',
       },
     ],
   },
