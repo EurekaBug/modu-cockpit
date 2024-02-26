@@ -1,0 +1,3 @@
+<template><div class="app"><h1>{{title+num}}</h1><h2>{{count}}</h2><h3>{{doubleCount}}</h3><button @click="handleAddBtnClick($event),handleLogBtnClick()">Add</button></div></template><script setup>import {computed} from 'vue';import {handleAddBtnClick} from './handler.js';import {handleLogBtnClick} from './handler.js';import {count} from './states.js';const props = defineProps({
+    title:String,num:Number,
+  });const doubleCount= computed(()=>count.value * 2);</script>

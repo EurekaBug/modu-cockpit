@@ -24,10 +24,31 @@ export const constantRoutes = [
     },
   },
   {
+    path: '/editor',
+    component: () => import('@/views/editor.vue'),
+    meta: {
+      isParentView: true,
+    },
+  },
+  {
     path: '/test',
     component: () => import('@/views/test/index.vue'),
     meta: {
       // isParentView: true,
+    },
+  },
+  {
+    path: '/counter',
+    component: () => import('@/views/Counter/index.vue'),
+    meta: {
+      isParentView: true,
+    },
+  },
+  {
+    path: '/result',
+    component: () => import('@/views/result/index.vue'),
+    meta: {
+      isParentView: true,
     },
   },
   {

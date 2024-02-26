@@ -5,7 +5,7 @@
 import layout from '@/layout/index.vue';
 import axios from 'axios';
 axios.post('http://localhost:3007/data/compile', {
-  filename: 'Counter.vue',
+  filename: 'Counter',
   fileJSON: {
     tag: 'div',
     classes: ['app'],
@@ -14,6 +14,7 @@ axios.post('http://localhost:3007/data/compile', {
         tag: 'h1',
         props: {
           title: 'String',
+          num: 'Number',
         },
       },
       {
@@ -33,7 +34,7 @@ axios.post('http://localhost:3007/data/compile', {
         events: {
           click: {
             'handleAddBtnClick($event)': 'count.value += 1',
-            'handleLogBtnClick()': "console.log('count.value')",
+            'handleLogBtnClick()': 'console.log(count.value)',
           },
         },
         text: 'Add',
