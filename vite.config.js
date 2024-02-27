@@ -4,6 +4,7 @@ import * as path from 'path';
 import AutoImport from 'unplugin-auto-import/vite';
 import eslint from 'vite-plugin-eslint';
 import ReactivityTransform from '@vue-macros/reactivity-transform/vite';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   // 获取`.env`环境配置文件
@@ -18,6 +19,7 @@ export default defineConfig(({ mode }) => {
       AutoImport({
         imports: ['vue', 'vue-router'],
       }),
+      vueJsx(),
     ],
     // 反向代理解决跨域问题
     server: {
