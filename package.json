@@ -15,6 +15,7 @@
     "@vueuse/core": "^10.7.2",
     "@vueuse/shared": "^10.7.2",
     "axios": "^1.6.0",
+    "deepcopy": "^2.1.0",
     "element-plus": "^2.4.2",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
