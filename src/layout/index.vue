@@ -1,26 +1,26 @@
 <template>
-  <!-- <h1>{{ route.meta }}</h1> -->
-  <div v-show="isLogin && !$route.meta.isParentView" class="flex h-full w-full">
-    <!-- 侧边栏菜单 -->
-    <sidebar v-if="isShowMenu" id="sidebar" class="w-200" />
-    <div class="flex-1">
-      <div id="top">
-        <!-- 顶部导航栏 -->
-        <navbar class="h-50" />
-        <!-- Tabs标签页 -->
-        <div :style="{ width: appMainWidth + 'px' }">
-          <tabs-view />
+    <!-- <h1>{{ route.meta }}</h1> -->
+    <div v-show="isLogin && !$route.meta.isParentView" class="flex h-full w-full">
+        <!-- 侧边栏菜单 -->
+        <sidebar v-if="isShowMenu" id="sidebar" class="w-200" />
+        <div class="flex-1">
+            <div id="top">
+                <!-- 顶部导航栏 -->
+                <navbar class="h-50" />
+                <!-- Tabs标签页 -->
+                <div :style="{ width: appMainWidth + 'px' }">
+                    <tabs-view />
+                </div>
+            </div>
+            <!-- 主页面 -->
+            <div :style="{ height: appMainHeight + 'px', width: appMainWidth + 'px' }">
+                <app-main class="app-main p-10" />
+            </div>
         </div>
-      </div>
-      <!-- 主页面 -->
-      <div :style="{ height: appMainHeight + 'px', width: appMainWidth + 'px' }">
-        <app-main class="app-main p-10" />
-      </div>
     </div>
-  </div>
-  <div v-if="!isLogin || (isLogin && $route.meta.isParentView)" class="h-full">
-    <router-view />
-  </div>
+    <div v-if="!isLogin || (isLogin && $route.meta.isParentView)" class="h-full">
+        <router-view />
+    </div>
 </template>
 
 <script setup>
@@ -33,39 +33,38 @@ let { isLogin } = toRefs(proxy.$store.user.useUserStore());
 let { isShowMenu } = toRefs(proxy.$store.settings.useSettingsStore());
 let appMainWidth = ref(0);
 let appMainHeight = ref(0);
-
 onMounted(() => {
-  // 窗口宽高变化时触发 -- tips：window.onresize只能在项目内触发1次
-  window.onresize = function windowResize() {
-    calWidthAndHeight();
-  };
+    // 窗口宽高变化时触发 -- tips：window.onresize只能在项目内触发1次
+    window.onresize = function windowResize() {
+        calWidthAndHeight();
+    };
 });
 
 // 注册一个回调函数，在组件因为响应式状态变更而更新其 DOM 树之后调用。
 onUpdated(() => {
-  calWidthAndHeight();
+    calWidthAndHeight();
 });
 
 watch(
-  [isLogin, isShowMenu],
-  (newValue) => {
-    calWidthAndHeight();
-  },
-  { immediate: false, deep: true },
+    [isLogin, isShowMenu],
+    (newValue) => {
+        calWidthAndHeight();
+    },
+    { immediate: false, deep: true },
 );
 
 function calWidthAndHeight() {
-  let sidebar = document.getElementById('sidebar');
-  let sidebarW = sidebar ? sidebar.offsetWidth : 0;
-  appMainWidth.value = window.innerWidth - sidebarW;
+    let sidebar = document.getElementById('sidebar');
+    let sidebarW = sidebar ? sidebar.offsetWidth : 0;
+    appMainWidth.value = window.innerWidth - sidebarW;
 
-  let top = document.getElementById('top');
-  let topH = top ? top.offsetHeight : 0;
-  appMainHeight.value = window.innerHeight - topH - 20; // 20 指 p-10
+    let top = document.getElementById('top');
+    let topH = top ? top.offsetHeight : 0;
+    appMainHeight.value = window.innerHeight - topH - 20; // 20 指 p-10
 }
 </script>
 <style lang="scss" scoped>
 .app-main {
-  // height: calc(100vh - 50px); // 满屏 - navbar
+    // height: calc(100vh - 50px); // 满屏 - navbar
 }
 </style>

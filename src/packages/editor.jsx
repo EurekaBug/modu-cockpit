@@ -23,8 +23,8 @@ export default defineComponent({
         // console.log(data.value)
 
         const containerStyle = computed(() => ({
-            width: data.value.contaniner.width + 'px',
-            height: data.value.contaniner.height + 'px',
+            width: data.value.container.width + 'px',
+            height: data.value.container.height + 'px',
         }));
         const config = inject('config');
 
@@ -33,13 +33,12 @@ export default defineComponent({
         const { dragstart, dragend } = useMenuDragger(containerRef, data); //拖拽实现
 
         /* 2. 实现获取焦点 */
-        let { blockMousedown, focusData, containerMousedown } = useFocus(data, (e) => {
+        let { blockMousedown, focusData, containerMousedown, lastSelectBlock } = useFocus(data, (e) => {
             mousedown(e); //获取焦点
         });
-        let { mousedown } = useBlockDragger(focusData);
+        let { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
         /* 3. 实现拖拽多个元素的功能 */
-
         return () => (
             <div class="editor">
                 <div class="editor-left">
@@ -58,14 +57,19 @@ export default defineComponent({
                     <div class="editor-container-canvas">
                         {/* 产生内容区域 */}
                         <div class="editor-container-canvas__content" style={containerStyle.value} ref={containerRef} onMousedown={containerMousedown}>
-                            {(data.value.blocks || []).map((block, index) => (
+                            {data.value.blocks.map((block, index) => (
                                 <EditorBlock
                                     class={block.focus ? 'editor-block-focus' : ''}
                                     block={block}
+                                    // onMouseup={() => {
+                                    //     console.log('onMouseup');
+                                    // }}
                                     onMousedown={(e) => {
-                                        blockMousedown(e, block);
+                                        blockMousedown(e, block, index);
                                     }}></EditorBlock>
                             ))}
+                            {markLine.x !== null && <div class="line-x" style={{ left: markLine.x + 'px' }}></div>}
+                            {markLine.y !== null && <div class="line-y" style={{ top: markLine.y + 'px' }}></div>}
                         </div>
                     </div>
                 </div>
