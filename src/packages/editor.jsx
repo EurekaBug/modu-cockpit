@@ -1,10 +1,12 @@
 import { computed, defineComponent } from 'vue';
 import './editor.scss';
 import EditorBlock from './editor-block';
+import Icon from './icon';
 import deepcopy from 'deepcopy';
 import { useMenuDragger } from './useMenuDragger';
 import { useFocus } from './useFocus';
 import { useBlockDragger } from './useBlockDragger';
+import { useCommand } from './useCommand';
 export default defineComponent({
     props: {
         modelValue: { type: Object },
@@ -36,9 +38,16 @@ export default defineComponent({
         let { blockMousedown, focusData, containerMousedown, lastSelectBlock } = useFocus(data, (e) => {
             mousedown(e); //获取焦点
         });
-        let { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
         /* 3. 实现拖拽多个元素的功能 */
+        let { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
+
+        const { commands } = useCommand(data);
+        const buttons = [
+            { label: '撤销', icon: 'RefreshLeft', handler: () => commands.undo() },
+            { label: '重做', icon: 'RefreshRight', handler: () => commands.redo() },
+        ];
+
         return () => (
             <div class="editor">
                 <div class="editor-left">
@@ -50,7 +59,16 @@ export default defineComponent({
                         </div>
                     ))}
                 </div>
-                <div class="editor-top">菜单栏</div>
+                <div class="editor-top">
+                    {buttons.map((btn, index) => {
+                        return (
+                            <div class="editor-top-button" key={index} onClick={btn.handler}>
+                                <Icon icon={btn.icon}></Icon>
+                                <i>{btn.label}</i>
+                            </div>
+                        );
+                    })}
+                </div>
                 <div class="editor-right">属性控制栏目</div>
                 <div class="editor-container">
                     {/* 负责产生滚动条 */}

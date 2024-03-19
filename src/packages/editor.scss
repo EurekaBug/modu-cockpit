@@ -4,7 +4,7 @@
     &-left, &-right{
         position: absolute;
         width: 270px;
-        background-color: red;
+        // background-color: red;
         top: 0;
         bottom: 0;
     }
@@ -51,7 +51,25 @@
         left: 280px;
         right: 280px;
         height: 80px;
-        background-color: blue;
+        // background-color: blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &-button{
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0,0,0,.3);
+            user-select: none;
+            cursor: pointer;
+            color: #fff;
+            &+&{//相邻兄弟选择器
+                margin-left: 3px;
+            }
+        }
     }
     &-container{
         padding:80px 270px 0;

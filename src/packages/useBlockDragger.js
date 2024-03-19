@@ -1,7 +1,10 @@
+import { events } from './events';
+
 export function useBlockDragger(focusData, lastSelectBlock, data) {
     let dragState = {
         startX: 0,
         startY: 0,
+        dragging: false, //是否正在拖拽
     };
     let markLine = reactive({
         x: null,
@@ -9,6 +12,11 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
     });
     const mousemove = (e) => {
         let { clientX: moveX, clientY: moveY } = e;
+
+        if (!dragState.dragging) {
+            dragState.dragging = true;
+            events.emit('start'); //触发事件就会记住拖拽前的位置
+        }
 
         //计算当前元素最新的left和top,找到显示线
         //鼠标移动后的位置减去鼠标移动前的位置+left/top
@@ -56,6 +64,10 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
         //拖拽结束后清空线
         markLine.x = null;
         markLine.y = null;
+
+        if (dragState.dragging) {
+            events.emit('end'); //触发事件就会记住拖拽后的位置
+        }
     };
     const mousedown = (e) => {
         const { width: BWidth, height: BHeight } = lastSelectBlock.value;
@@ -66,6 +78,7 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
             startPos: focusData.value.focus.map(({ top, left }) => ({ top, left })),
             startLeft: lastSelectBlock.value.left, //b拖拽前的left
             startTop: lastSelectBlock.value.top, //b拖拽前的top
+            dragging: false,
             lines: (() => {
                 const { unFocus } = focusData.value; //获取未选中的组件
                 console.log(unFocus);

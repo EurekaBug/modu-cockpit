@@ -17,14 +17,25 @@ import { filters } from '@/utils/filters';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 
+//引入element-plus的图标
+// import { toIconLine } from './utils/elements';
+
 const app = createApp(App);
 app.config.globalProperties.$filters = filters;
 // 注册所有图标
 app.use(ElementPlus);
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-  app.component(key, component);
+    app.component(key, component);
 }
+
+// 全局注册图标 会牺牲一点性能 el-icon-xxx
+// for (let i in ElementPlusIconsVue) {
+//     let name = toIconLine(i);
+//     console.log(name);
+//     app.component(name, ElementPlusIconsVue[i]);
+// }
+
 app.use(router);
 app.mixin(mixin);
 
@@ -33,16 +44,16 @@ import { createPinia } from 'pinia';
 const pinia = createPinia();
 import { createPersistedState } from 'pinia-plugin-persistedstate';
 pinia.use(
-  createPersistedState({
-    auto: true, // 启用所有 Store 默认持久化
-  }),
+    createPersistedState({
+        auto: true, // 启用所有 Store 默认持久化
+    }),
 );
 // 重写 $reset 方法 => 解决组合式api中无法使用问题
 pinia.use(({ store }) => {
-  const initialState = JSON.parse(JSON.stringify(store.$state));
-  store.$reset = () => {
-    store.$patch(initialState);
-  };
+    const initialState = JSON.parse(JSON.stringify(store.$state));
+    store.$reset = () => {
+        store.$patch(initialState);
+    };
 });
 app.use(pinia);
 
@@ -59,7 +70,7 @@ app.config.globalProperties.$api = api;
 // 全局组件注册
 import myComponent from '@/components/index';
 Object.keys(myComponent).forEach((key) => {
-  app.component(key, myComponent[key]);
+    app.component(key, myComponent[key]);
 });
 
 //路由权限
@@ -68,7 +79,7 @@ Object.keys(myComponent).forEach((key) => {
 // 注册自定义指令（eg:按钮权限）
 import directive from '@/directive/index.js';
 Object.keys(directive).forEach((key) => {
-  app.directive(key, directive[key]);
+    app.directive(key, directive[key]);
 });
 
 app.mount('#app');

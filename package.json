@@ -17,6 +17,7 @@
     "axios": "^1.6.0",
     "deepcopy": "^2.1.0",
     "element-plus": "^2.4.2",
+    "mitt": "^3.0.1",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.0",
