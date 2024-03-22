@@ -12,9 +12,9 @@ export function useCommand(data) {
 
     const registry = (command) => {
         state.commandArray.push(command);
-        state.commands[command.name] = () => {
+        state.commands[command.name] = (...args) => {
             //命令名字对应的执行函数
-            const { redo, undo } = command.excute();
+            const { redo, undo } = command.excute(...args);
             redo();
             if (!command.pushQueue) {
                 return;
@@ -104,6 +104,26 @@ export function useCommand(data) {
             };
         },
     });
+    //带有历史记录的常用模式
+    registry({
+        name: 'updateContainer',
+        pushQueue: true,
+        excute(newValue) {
+            let state = {
+                before: data.value,
+                after: newValue,
+            };
+            return {
+                redo: () => {
+                    data.value = state.after;
+                },
+                undo: () => {
+                    data.value = state.before;
+                },
+            };
+        },
+    });
+
     const keyboardEvent = (() => {
         const keyCodes = {
             90: 'z',

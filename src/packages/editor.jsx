@@ -1,7 +1,8 @@
 import { computed, defineComponent } from 'vue';
 import './editor.scss';
 import EditorBlock from './editor-block';
-import Icon from './icon';
+import Icon from '../components/icon';
+import { $dialog } from '../components/dialog';
 import deepcopy from 'deepcopy';
 import { useMenuDragger } from './useMenuDragger';
 import { useFocus } from './useFocus';
@@ -44,8 +45,33 @@ export default defineComponent({
 
         const { commands } = useCommand(data);
         const buttons = [
-            { label: '撤销', icon: 'RefreshLeft', handler: () => commands.undo() },
-            { label: '重做', icon: 'RefreshRight', handler: () => commands.redo() },
+            { label: '撤销', icon: 'Back', handler: () => commands.undo() },
+            { label: '重做', icon: 'Right', handler: () => commands.redo() },
+            {
+                label: '导入',
+                icon: 'DocumentAdd',
+                handler: () => {
+                    $dialog({
+                        header: '导入json使用',
+                        content: '',
+                        footer: true,
+                        onConfirm(text) {
+                            // data.value = JSON.parse(text);//无法保留历史操作记录
+                            commands.updateContainer(JSON.parse(text));
+                        },
+                    });
+                },
+            },
+            {
+                label: '导出',
+                icon: 'DocumentRemove',
+                handler: () => {
+                    $dialog({
+                        header: '导出json使用',
+                        content: JSON.stringify(data.value),
+                    });
+                },
+            },
         ];
 
         return () => (
@@ -64,7 +90,7 @@ export default defineComponent({
                         return (
                             <div class="editor-top-button" key={index} onClick={btn.handler}>
                                 <Icon icon={btn.icon}></Icon>
-                                <i>{btn.label}</i>
+                                <i style="font-style: normal;">{btn.label}</i>
                             </div>
                         );
                     })}
