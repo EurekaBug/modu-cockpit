@@ -104,7 +104,11 @@
         border: 2px dashed red;//红虚线
     }
 }
-
+.editor-block-preview{
+    &::after{
+        display: none;
+    }
+}
 //移动left值
 .line-x{
     position: absolute;

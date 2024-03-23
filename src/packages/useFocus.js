@@ -1,4 +1,4 @@
-export function useFocus(data, callback) {
+export function useFocus(data, previewRef, callback) {
     const selectIndex = ref(-1); //选中的元素的索引
     const lastSelectBlock = computed(() => data.value.blocks[selectIndex.value]); //最后一次选中的元素
 
@@ -17,10 +17,12 @@ export function useFocus(data, callback) {
         });
     };
     const containerMousedown = () => {
+        if (previewRef.value) return;
         clearBlockFocus(); //点击空白处清空所有的block的焦点
         selectIndex.value = -1;
     };
     const blockMousedown = (e, block, index) => {
+        if (previewRef.value) return;
         //block上的focus属性在获取焦点后设置为true
         e.preventDefault();
         e.stopPropagation();
@@ -46,5 +48,6 @@ export function useFocus(data, callback) {
         focusData,
         containerMousedown,
         lastSelectBlock,
+        clearBlockFocus,
     };
 }

@@ -14,6 +14,9 @@ export default defineComponent({
     },
     emits: ['update:modelValue'], //触发事件
     setup(props, cts) {
+        //预览的时候内容不能再操作了 可点击输入框
+        const previewRef = ref(true);
+
         const data = computed({
             get() {
                 return props.modelValue;
@@ -36,7 +39,7 @@ export default defineComponent({
         const { dragstart, dragend } = useMenuDragger(containerRef, data); //拖拽实现
 
         /* 2. 实现获取焦点 */
-        let { blockMousedown, focusData, containerMousedown, lastSelectBlock } = useFocus(data, (e) => {
+        let { blockMousedown, focusData, containerMousedown, lastSelectBlock, clearBlockFocus } = useFocus(data, previewRef, (e) => {
             mousedown(e); //获取焦点
         });
 
@@ -93,6 +96,15 @@ export default defineComponent({
                     commands.delete();
                 },
             },
+            {
+                label: () => (previewRef.value ? '编辑' : '预览'),
+                icon: () => (previewRef.value ? 'Edit' : 'View'),
+                handler: () => {
+                    // debugger;
+                    previewRef.value = !previewRef.value;
+                    clearBlockFocus();
+                },
+            },
         ];
 
         return () => (
@@ -108,10 +120,12 @@ export default defineComponent({
                 </div>
                 <div class="editor-top">
                     {buttons.map((btn, index) => {
+                        const icon = typeof btn.icon === 'function' ? btn.icon() : btn.icon;
+                        const label = typeof btn.label === 'function' ? btn.label() : btn.label;
                         return (
                             <div class="editor-top-button" key={index} onClick={btn.handler}>
-                                <Icon icon={btn.icon}></Icon>
-                                <i style="font-style: normal;">{btn.label}</i>
+                                <Icon key={icon} v-model:icon={icon}></Icon>
+                                <i style="font-style: normal;">{label}</i>
                             </div>
                         );
                     })}
@@ -125,6 +139,7 @@ export default defineComponent({
                             {data.value.blocks.map((block, index) => (
                                 <EditorBlock
                                     class={block.focus ? 'editor-block-focus' : ''}
+                                    class={previewRef.value ? 'editor-block-preview' : ''}
                                     block={block}
                                     // onMouseup={() => {
                                     //     console.log('onMouseup');
