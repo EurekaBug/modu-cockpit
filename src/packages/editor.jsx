@@ -86,7 +86,6 @@ export default defineComponent({
                     commands.placeBottom();
                 },
             },
-<<<<<<< HEAD
             {
                 label: '删除',
                 icon: 'Delete',
@@ -94,8 +93,6 @@ export default defineComponent({
                     commands.delete();
                 },
             },
-=======
->>>>>>> 100e9f284f0ae0190eeb51106915ad29b054bb92
         ];
 
         return () => (
