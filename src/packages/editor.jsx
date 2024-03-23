@@ -43,7 +43,7 @@ export default defineComponent({
         /* 3. 实现拖拽多个元素的功能 */
         let { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
-        const { commands } = useCommand(data);
+        const { commands } = useCommand(data, focusData);
         const buttons = [
             { label: '撤销', icon: 'Back', handler: () => commands.undo() },
             { label: '重做', icon: 'Right', handler: () => commands.redo() },
@@ -70,6 +70,20 @@ export default defineComponent({
                         header: '导出json使用',
                         content: JSON.stringify(data.value),
                     });
+                },
+            },
+            {
+                label: '置顶',
+                icon: 'CaretTop',
+                handler: () => {
+                    commands.placeTop();
+                },
+            },
+            {
+                label: '置底',
+                icon: 'CaretBottom',
+                handler: () => {
+                    commands.placeBottom();
                 },
             },
         ];

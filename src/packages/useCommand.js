@@ -1,6 +1,6 @@
 import { events } from './events';
 import deepcopy from 'deepcopy';
-export function useCommand(data) {
+export function useCommand(data, focusData) {
     const state = {
         //前进后退的指针
         current: -1, //索引值
@@ -119,6 +119,70 @@ export function useCommand(data) {
                 },
                 undo: () => {
                     data.value = state.before;
+                },
+            };
+        },
+    });
+    registry({
+        //置顶
+        name: 'placeTop',
+        pushQueue: true,
+        excute() {
+            let before = deepcopy(data.value.blocks);
+            let after = (() => {
+                //置顶就是在block中找zIndex最大的
+                let { focus, unFocus } = focusData.value;
+                let maxZIndex = unFocus.reduce((prev, block) => {
+                    return Math.max(prev, block.zIndex);
+                }, -Infinity); //-Infinity是一个负无穷大的数
+                //让当前选中的元素比最大的+1
+                focus.forEach((block) => (block.zIndex = maxZIndex + 1));
+                return data.value.blocks;
+            })();
+
+            return {
+                undo: () => {
+                    //如果当前blocks前后一致 则不会更新
+                    data.value = { ...data.value, blocks: before };
+                },
+                redo: () => {
+                    data.value = { ...data.value, blocks: after };
+                },
+            };
+        },
+    });
+    registry({
+        //置底
+        name: 'placeBottom',
+        pushQueue: true,
+        excute() {
+            let before = deepcopy(data.value.blocks);
+            let after = (() => {
+                //置顶就是在block中找zIndex最大的
+                let { focus, unFocus } = focusData.value;
+                let minZIndex =
+                    unFocus.reduce((prev, block) => {
+                        return Math.min(prev, block.zIndex);
+                    }, Infinity) - 1; //-Infinity是一个负无穷大的数
+                //不能-1 因为负值看不到组件
+
+                if (minZIndex < 0) {
+                    //如果是赋值则让没选中的向上，自己变为0
+                    const dur = Math.abs(minZIndex);
+                    minZIndex = 0;
+                    unFocus.forEach((block) => (block.zIndex += dur));
+                }
+                focus.forEach((block) => (block.zIndex = minZIndex)); //控制选中的值
+                return data.value.blocks;
+            })();
+
+            return {
+                undo: () => {
+                    //如果当前blocks前后一致 则不会更新
+                    data.value = { ...data.value, blocks: before };
+                },
+                redo: () => {
+                    data.value = { ...data.value, blocks: after };
                 },
             };
         },
