@@ -9,6 +9,7 @@ import { useMenuDragger } from './useMenuDragger';
 import { useFocus } from './useFocus';
 import { useBlockDragger } from './useBlockDragger';
 import { useCommand } from './useCommand';
+import EditorOperator from './editor-operator';
 export default defineComponent({
     props: {
         modelValue: { type: Object },
@@ -48,6 +49,7 @@ export default defineComponent({
         /* 3. 实现拖拽多个元素的功能 */
         let { mousedown, markLine } = useBlockDragger(focusData, lastSelectBlock, data);
 
+        //命令操作
         const { commands } = useCommand(data, focusData);
         const buttons = [
             { label: '撤销', icon: 'Back', handler: () => commands.undo() },
@@ -194,7 +196,9 @@ export default defineComponent({
                             );
                         })}
                     </div>
-                    <div class="editor-right">属性控制栏目</div>
+                    <div class="editor-right">
+                        <EditorOperator block={lastSelectBlock.value} data={data.value}></EditorOperator>
+                    </div>
                     <div class="editor-container">
                         {/* 负责产生滚动条 */}
                         <div class="editor-container-canvas">
