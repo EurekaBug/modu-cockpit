@@ -71,7 +71,7 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
     };
     const mousedown = (e) => {
         const { width: BWidth, height: BHeight } = lastSelectBlock.value;
-        console.log(lastSelectBlock.value);
+        // console.log(lastSelectBlock.value);
         dragState = {
             startX: e.clientX,
             startY: e.clientY,
@@ -81,7 +81,7 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
             dragging: false,
             lines: (() => {
                 const { unFocus } = focusData.value; //获取未选中的组件
-                console.log(unFocus);
+                // console.log(unFocus);
                 let lines = { x: [], y: [] }; //初始化线的位置 y是水平线 x是垂直线
                 [
                     ...unFocus,
@@ -115,7 +115,7 @@ export function useBlockDragger(focusData, lastSelectBlock, data) {
                     //5.右对右辅助线
                     lines.x.push({ showLeft: ALeft + AWidth, left: ALeft + AWidth - BWidth });
                 });
-                console.log(lines);
+                // console.log(lines);
                 return lines;
             })(),
         };

@@ -206,6 +206,32 @@ export function useCommand(data, focusData) {
             };
         },
     });
+    registry({
+        //更新容器
+        name: 'updateBlock',
+        pushQueue: true,
+        excute(newBlock, oldBlock) {
+            let state = {
+                before: data.value.blocks,
+                after: (() => {
+                    let blocks = [...data.value.blocks];
+                    const idx = data.value.blocks.indexOf(oldBlock); //找到老的block
+                    if (idx > -1) {
+                        blocks.splice(idx, 1, newBlock);
+                    }
+                    return blocks;
+                })(),
+            };
+            return {
+                redo: () => {
+                    data.value = { ...data.value, blocks: state.after };
+                },
+                undo: () => {
+                    data.value = { ...data.value, blocks: state.before };
+                },
+            };
+        },
+    });
     const keyboardEvent = (() => {
         const keyCodes = {
             90: 'z',

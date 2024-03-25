@@ -2,7 +2,8 @@ import { computed, defineComponent } from 'vue';
 import './editor.scss';
 import EditorBlock from './editor-block';
 import Icon from '../components/icon';
-import { $dialog } from '../components/dialog';
+import { $dialog } from '../components/Dialog';
+import { $dropdown, DropdownItem } from '../components/Dropdown';
 import deepcopy from 'deepcopy';
 import { useMenuDragger } from './useMenuDragger';
 import { useFocus } from './useFocus';
@@ -116,6 +117,46 @@ export default defineComponent({
             },
         ];
 
+        //右键菜单
+        const onContextMenuBlock = (e, block) => {
+            e.preventDefault();
+
+            $dropdown({
+                el: e.target, //触发的元素
+                content: () => {
+                    return (
+                        <>
+                            <DropdownItem label="置顶" icon="CaretTop" onClick={() => commands.placeTop()}></DropdownItem>
+                            <DropdownItem label="置底" icon="CaretBottom" onClick={() => commands.placeBottom()}></DropdownItem>
+                            <DropdownItem
+                                label="查看"
+                                icon="View"
+                                onClick={() => {
+                                    $dialog({
+                                        header: '查看节点数据',
+                                        content: JSON.stringify(block),
+                                    });
+                                }}></DropdownItem>
+                            <DropdownItem
+                                label="导入"
+                                icon="DocumentAdd"
+                                onClick={() => {
+                                    $dialog({
+                                        header: '导入节点数据',
+                                        content: JSON.stringify(block),
+                                        footer: true,
+                                        onConfirm(text) {
+                                            text = JSON.parse(text); //无法保留历史操作记录
+                                            commands.updateBlock(text, block);
+                                        },
+                                    });
+                                }}></DropdownItem>
+                            <DropdownItem label="删除" icon="Delete" onClick={() => commands.delete()}></DropdownItem>
+                        </>
+                    );
+                },
+            });
+        };
         return () =>
             !editorRef.value ? (
                 <>
@@ -164,12 +205,10 @@ export default defineComponent({
                                         class={block.focus ? 'editor-block-focus' : ''}
                                         class={previewRef.value ? 'editor-block-preview' : ''}
                                         block={block}
-                                        // onMouseup={() => {
-                                        //     console.log('onMouseup');
-                                        // }}
                                         onMousedown={(e) => {
                                             blockMousedown(e, block, index);
-                                        }}></EditorBlock>
+                                        }}
+                                        onContextmenu={(e) => onContextMenuBlock(e, block)}></EditorBlock>
                                 ))}
                                 {markLine.x !== null && <div class="line-x" style={{ left: markLine.x + 'px' }}></div>}
                                 {markLine.y !== null && <div class="line-y" style={{ top: markLine.y + 'px' }}></div>}
