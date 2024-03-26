@@ -1,5 +1,5 @@
 import { ElColorPicker, ElForm, ElFormItem } from 'element-plus';
-
+import deepcopy from 'deepcopy';
 export default defineComponent({
     props: {
         block: {
@@ -10,19 +10,47 @@ export default defineComponent({
             //当前所有数据
             type: Object,
         },
+        updateContainer: {
+            //更新容器的大小
+            type: Function,
+        },
+        updateBlock: {
+            //更新block的配置
+            type: Function,
+        },
     },
     setup(props, ctx) {
         const config = inject('config');
+        const state = reactive({
+            editData: {},
+        });
+        const reset = () => {
+            if (!props.block) {
+                state.editData = deepcopy(props.data.container);
+            } else {
+                state.editData = deepcopy(props.block);
+            }
+        };
+        const apply = () => {
+            if (!props.block) {
+                //更改容器组件大小
+                props.updateContainer({ ...props.data, container: state.editData });
+            } else {
+                //更改组件的配置
+                props.updateBlock(state.editData, props.block);
+            }
+        };
+        watch(() => props.block, reset, { immediate: true });
         return () => {
             let content = [];
             if (!props.block) {
                 content.push(
                     <>
                         <ElFormItem label="容器宽度">
-                            <ElInputNumber></ElInputNumber>
+                            <ElInputNumber v-model={state.editData.width}></ElInputNumber>
                         </ElFormItem>
                         <ElFormItem label="容器高度">
-                            <ElInputNumber></ElInputNumber>
+                            <ElInputNumber v-model={state.editData.height}></ElInputNumber>
                         </ElFormItem>
                     </>,
                 );
@@ -35,12 +63,12 @@ export default defineComponent({
                             return (
                                 <ElFormItem label={propConfig.label}>
                                     {{
-                                        input: () => <ElInput></ElInput>,
-                                        color: () => <ElColorPicker></ElColorPicker>,
+                                        input: () => <ElInput v-model={state.editData.props[propName]}></ElInput>,
+                                        color: () => <ElColorPicker v-model={state.editData.props[propName]}></ElColorPicker>,
                                         select: () => (
-                                            <ElSelect>
+                                            <ElSelect v-model={state.editData.props[propName]}>
                                                 {propConfig.option.map((option) => {
-                                                    return <ElOption label={option.label} value={option.value}></ElOption>;
+                                                    return <ElOption label={option.label} value={option.val}></ElOption>;
                                                 })}
                                             </ElSelect>
                                         ),
@@ -50,13 +78,25 @@ export default defineComponent({
                         }),
                     );
                 }
+                if (component && component.model) {
+                    content.push(                           
+                        //                                     default   标签名
+                        Object.entries(component.model).map(([modelName, label]) => {
+                            return <ElFormItem label={label}>
+                                    <ElInput v-model={state.editData.model[modelName]}></ElInput>
+                                </ElFormItem>
+                        })
+                    );
+                }
             }
             return (
                 <ElForm labelPosition="top" style="padding:30px">
                     {content}
                     <ElFormItem>
-                        <ElButton type="primary">应用</ElButton>
-                        <ElButton>重置</ElButton>
+                        <ElButton type="primary" onClick={() => apply()}>
+                            应用
+                        </ElButton>
+                        <ElButton onClick={reset}>重置</ElButton>
                     </ElFormItem>
                 </ElForm>
             );

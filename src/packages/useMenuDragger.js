@@ -23,6 +23,8 @@ export function useMenuDragger(containerRef, data) {
                     zIndex: 1,
                     key: currentComponent.key,
                     alignCenter: true, //松手后居中
+                    props: {},
+                    model: {},
                 },
             ],
         };

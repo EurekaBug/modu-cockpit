@@ -1,6 +1,7 @@
 export default defineComponent({
     props: {
         block: { type: Object },
+        formData:{type:Object}
     },
     setup(props) {
         const blockStyle = computed(() => ({
@@ -29,7 +30,18 @@ export default defineComponent({
             //获取组件
             const component = config.componentMap[props.block.key];
             //渲染组件
-            const renderComponent = component.render();
+            const renderComponent = component.render({
+                props: props.block.props,
+                // model: props.block.model =>{default:'username'} =>{modelValue:FormData.username,"onUpdate:modelValue":v=>FormData.username=v},
+                model:Object.keys(component.model||{}).reduce((prev, modelName) => {
+                    let propName = props.block.model[modelName];//'username'
+                    prev[modelName] = {
+                        modelValue:props.formData[propName],// admin
+                        "onUpdate:modelValue":v=>props.formData[propName]=v
+                    }
+                    return prev;
+                },{})
+            });
             return (
                 <div class="editor-block" style={blockStyle.value} ref={blockRef}>
                     {renderComponent}

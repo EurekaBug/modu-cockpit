@@ -13,6 +13,7 @@ import EditorOperator from './editor-operator';
 export default defineComponent({
     props: {
         modelValue: { type: Object },
+        formData: {type:Object}
     },
     emits: ['update:modelValue'], //触发事件
     setup(props, cts) {
@@ -164,13 +165,18 @@ export default defineComponent({
                 <>
                     <div class="editor-container-canvas__content" style={containerStyle.value} style="margin:0">
                         {data.value.blocks.map((block, index) => (
-                            <EditorBlock class={'editor-block-preview'} block={block}></EditorBlock>
+                            <EditorBlock 
+                            class={'editor-block-preview'} 
+                            block={block}
+                            formData={props.formData}
+                            ></EditorBlock>
                         ))}
                     </div>
                     <div>
                         <ElButton type="primary" onClick={() => (editorRef.value = true)}>
                             继续编辑
                         </ElButton>
+                        {JSON.stringify(props.formData)}
                     </div>
                 </>
             ) : (
@@ -197,7 +203,7 @@ export default defineComponent({
                         })}
                     </div>
                     <div class="editor-right">
-                        <EditorOperator block={lastSelectBlock.value} data={data.value}></EditorOperator>
+                        <EditorOperator block={lastSelectBlock.value} data={data.value} updateContainer={commands.updateContainer} updateBlock={commands.updateBlock}></EditorOperator>
                     </div>
                     <div class="editor-container">
                         {/* 负责产生滚动条 */}
@@ -212,7 +218,9 @@ export default defineComponent({
                                         onMousedown={(e) => {
                                             blockMousedown(e, block, index);
                                         }}
-                                        onContextmenu={(e) => onContextMenuBlock(e, block)}></EditorBlock>
+                                        onContextmenu={(e) => onContextMenuBlock(e, block)}
+                                        formData={props.formData}
+                                        ></EditorBlock>
                                 ))}
                                 {markLine.x !== null && <div class="line-x" style={{ left: markLine.x + 'px' }}></div>}
                                 {markLine.y !== null && <div class="line-y" style={{ top: markLine.y + 'px' }}></div>}

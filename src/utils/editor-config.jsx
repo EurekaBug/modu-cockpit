@@ -36,7 +36,7 @@ const createSelectProp = (label, option) => ({
 registerConfig.register({
     label: '文本',
     preview: () => '预览文本',
-    render: () => '渲染文本',
+    render: ({ props }) => <span style={{ color: props.color, fontSize: props.size }}>{props.text || '文字内容'}</span>,
     key: 'text',
     props: {
         text: createInputProp('文本内容'),
@@ -51,7 +51,11 @@ registerConfig.register({
 registerConfig.register({
     label: '按钮',
     preview: () => <ElButton>预览按钮</ElButton>,
-    render: () => <ElButton>渲染按钮</ElButton>,
+    render: ({ props }) => (
+        <ElButton type={props.type} size={props.size}>
+            {props.text || '按钮内容'}
+        </ElButton>
+    ),
     key: 'button',
     props: {
         text: createInputProp('按钮内容'),
@@ -64,17 +68,24 @@ registerConfig.register({
         ]),
         size: createSelectProp('按钮大小', [
             { label: '默认', val: '' },
-            { label: '中等', val: 'medium' },
+            { label: '大', val: 'large' },
             { label: '小', val: 'small' },
-            { label: '极小', val: 'mini' },
         ]),
     },
 });
 registerConfig.register({
     label: '输入框',
     preview: () => <ElInput placeholder="预览输入框"></ElInput>,
-    render: () => <ElInput placeholder="渲染输入框"></ElInput>,
+    render: ({model}) => <ElInput placeholder="渲染输入框" {...model.default}></ElInput>,
     key: 'input',
+    model:{
+        default:'绑定字段'
+    }
 });
+
+// model:{
+//     start:'开始字段',
+//     end:'结束字段'
+// }
 
 //封装更多组件

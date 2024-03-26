@@ -207,7 +207,7 @@ export function useCommand(data, focusData) {
         },
     });
     registry({
-        //更新容器
+        //更新某个组件
         name: 'updateBlock',
         pushQueue: true,
         excute(newBlock, oldBlock) {
