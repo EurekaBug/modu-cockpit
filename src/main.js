@@ -17,6 +17,8 @@ import { filters } from '@/utils/filters';
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
 
+
+
 //引入element-plus的图标
 // import { toIconLine } from './utils/elements';
 
@@ -72,6 +74,10 @@ import myComponent from '@/components/index';
 Object.keys(myComponent).forEach((key) => {
     app.component(key, myComponent[key]);
 });
+
+// 引入echarts
+import * as echarts from 'echarts' 
+app.config.globalProperties.$echarts = echarts
 
 //路由权限
 // import '@/router/permission.js';

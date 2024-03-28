@@ -46,6 +46,17 @@
                 :inactive-icon="Sunny"
                 @change="toggleDark" />
         </el-row>
+        <!-- echarts -->
+        <el-row>
+            <div class="title">echarts：</div>
+            <el-col :span="8" v-for="(i, index) in [0, 1]" :key="index">
+                <!-- <div ref="chart" style="height: 400px;"></div> -->
+                <Echart :refKey="index" :option="option[index]"></Echart>
+            </el-col>
+        </el-row>
+        <el-row>
+            <Range :start="0" :end="100"></Range>
+        </el-row>
     </div>
 </template>
 <script setup>
@@ -53,11 +64,53 @@ import { getCurrentInstance, ref } from 'vue';
 import Date from '@/components/modules/date.vue';
 import Table from '@/components/modules/table.vue';
 import { useDark, useToggle } from '@vueuse/core';
+import Echart from '@/components/myechart.vue';
+import Range from '@/components/Range';
 const { proxy } = getCurrentInstance();
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 const dateSize = ref('default');
 const dateType = ref('date');
+const option = [
+    {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [
+            {
+                data: [120, 200, 150, 80, 70, 110, 130],
+                type: 'line',
+            },
+        ],
+    },
+    {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        },
+        yAxis: {
+            type: 'value',
+        },
+        series: [
+            {
+                data: [120, 200, 150, 80, 70, 110, 130],
+                type: 'bar',
+            },
+        ],
+    },
+];
+// onMounted(() => {
+//     const myChart = proxy.$echarts.init(proxy.$refs.chart);
+//     myChart.setOption(option);
+//     // 根据页面大小自动响应图表大小
+//     window.addEventListener('resize', function () {
+//         myChart.resize();
+//     });
+// });
 </script>
 <style lang="scss" scoped>
 .test {

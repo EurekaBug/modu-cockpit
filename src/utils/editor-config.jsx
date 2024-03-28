@@ -51,9 +51,13 @@ registerConfig.register({
 });
 registerConfig.register({
     label: '按钮',
+    resize: {
+        width: true,
+        height: true,
+    },
     preview: () => <ElButton>预览按钮</ElButton>,
-    render: ({ props }) => (
-        <ElButton type={props.type} size={props.size}>
+    render: ({ props, size }) => (
+        <ElButton style={{ height: size.height + 'px', width: size.width + 'px' }} type={props.type} size={props.size}>
             {props.text || '按钮内容'}
         </ElButton>
     ),
@@ -76,8 +80,11 @@ registerConfig.register({
 });
 registerConfig.register({
     label: '输入框',
+    resize: {
+        width: true,
+    },
     preview: () => <ElInput placeholder="预览输入框"></ElInput>,
-    render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default}></ElInput>,
+    render: ({ model, size }) => <ElInput placeholder="渲染输入框" {...model.default} style={{ width: size.width + 'px' }}></ElInput>,
     key: 'input',
     model: {
         default: '绑定字段',
