@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <Editor v-model="state" :formData="formData"/>
+        <Editor v-model="state" :formData="formData" />
     </div>
 </template>
 <script setup>
@@ -11,9 +11,11 @@ import { registerConfig as config } from '../utils/editor-config';
 const state = $ref(data);
 provide('config', config); // 为子组件提供配置
 const formData = ref({
-    username:'admin',
-    password:123
-})
+    username: 'admin',
+    password: 123,
+    start: 0,
+    end: 100,
+});
 </script>
 <style scoped lang="scss">
 .app {

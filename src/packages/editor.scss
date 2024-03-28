@@ -142,3 +142,16 @@
     user-select: none;
     cursor: pointer;
 }
+.range{
+    display: inline-flex;
+    width:200px;
+    min-height:30px;
+    input{
+        flex:1;
+        width:100%;
+    }
+    span{
+        margin:0 4px;
+        display: inline-flex;
+    }
+}

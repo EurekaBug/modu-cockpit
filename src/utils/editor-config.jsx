@@ -3,6 +3,7 @@
 
 import { ElButton, ElInput } from 'element-plus';
 // import { preview } from "vite";
+import Range from '../components/Range';
 
 function createEditorConfig() {
     const componentList = [];
@@ -76,16 +77,34 @@ registerConfig.register({
 registerConfig.register({
     label: '输入框',
     preview: () => <ElInput placeholder="预览输入框"></ElInput>,
-    render: ({model}) => <ElInput placeholder="渲染输入框" {...model.default}></ElInput>,
+    render: ({ model }) => <ElInput placeholder="渲染输入框" {...model.default}></ElInput>,
     key: 'input',
-    model:{
-        default:'绑定字段'
-    }
+    model: {
+        default: '绑定字段',
+    },
 });
 
 // model:{
 //     start:'开始字段',
 //     end:'结束字段'
 // }
+
+registerConfig.register({
+    label: '范围选择器',
+    preview: () => <Range></Range>,
+    render: ({ model }) => (
+        <Range
+            {...{
+                start: model.start.modelValue,
+                end: model.end.modelValue,
+                'onUpdate:start': model.start['onUpdate:modelValue'],
+                'onUpdate:end': model.end['onUpdate:modelValue'],
+            }}></Range>
+    ),
+    model: {
+        start: '开始范围字段',
+        end: '结束范围字段',
+    },
+});
 
 //封装更多组件
