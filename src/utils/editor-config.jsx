@@ -4,6 +4,7 @@
 import { ElButton, ElInput } from 'element-plus';
 // import { preview } from "vite";
 import Range from '../components/Range';
+import MyEchart from '../components/myechart';
 
 function createEditorConfig() {
     const componentList = [];
@@ -17,6 +18,8 @@ function createEditorConfig() {
             componentMap[component.key] = component;
         },
     };
+    console.log(componentList);
+    console.log(componentMap);
 }
 export let registerConfig = createEditorConfig();
 // console.log(registerConfig);
@@ -90,28 +93,37 @@ registerConfig.register({
         default: '绑定字段',
     },
 });
-
-// model:{
-//     start:'开始字段',
-//     end:'结束字段'
-// }
-
 registerConfig.register({
     label: '范围选择器',
+    key: 'range',
+    resize: {
+        width: true,
+    },
     preview: () => <Range></Range>,
-    render: ({ model }) => (
+    render: ({ model, size }) => (
         <Range
             {...{
                 start: model.start.modelValue,
                 end: model.end.modelValue,
                 'onUpdate:start': model.start['onUpdate:modelValue'],
                 'onUpdate:end': model.end['onUpdate:modelValue'],
-            }}></Range>
+            }}
+            style={{ width: size.width + 'px' }}></Range>
     ),
     model: {
         start: '开始范围字段',
         end: '结束范围字段',
     },
+});
+registerConfig.register({
+    label: '折线图',
+    key: 'line',
+    resize: {
+        width: true,
+        height: true,
+    },
+    preview: () => <MyEchart></MyEchart>,
+    render: ({ props, size }) => <MyEchart></MyEchart>,
 });
 
 //封装更多组件

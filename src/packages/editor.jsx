@@ -2,6 +2,7 @@ import { computed, defineComponent } from 'vue';
 import './editor.scss';
 import EditorBlock from './editor-block';
 import Icon from '../components/icon';
+import MyEchart from '../components/myechart';
 import { $dialog } from '../components/Dialog';
 import { $dropdown, DropdownItem } from '../components/Dropdown';
 import deepcopy from 'deepcopy';
@@ -13,7 +14,7 @@ import EditorOperator from './editor-operator';
 export default defineComponent({
     props: {
         modelValue: { type: Object },
-        formData: {type:Object}
+        formData: { type: Object },
     },
     emits: ['update:modelValue'], //触发事件
     setup(props, cts) {
@@ -165,11 +166,7 @@ export default defineComponent({
                 <>
                     <div class="editor-container-canvas__content" style={containerStyle.value} style="margin:0">
                         {data.value.blocks.map((block, index) => (
-                            <EditorBlock 
-                            class={'editor-block-preview'} 
-                            block={block}
-                            formData={props.formData}
-                            ></EditorBlock>
+                            <EditorBlock class={'editor-block-preview'} block={block} formData={props.formData}></EditorBlock>
                         ))}
                     </div>
                     <div>
@@ -219,8 +216,7 @@ export default defineComponent({
                                             blockMousedown(e, block, index);
                                         }}
                                         onContextmenu={(e) => onContextMenuBlock(e, block)}
-                                        formData={props.formData}
-                                        ></EditorBlock>
+                                        formData={props.formData}></EditorBlock>
                                 ))}
                                 {markLine.x !== null && <div class="line-x" style={{ left: markLine.x + 'px' }}></div>}
                                 {markLine.y !== null && <div class="line-y" style={{ top: markLine.y + 'px' }}></div>}

@@ -31,6 +31,7 @@ export default defineComponent({
             //获取组件
             const component = config.componentMap[props.block.key];
             //渲染组件
+            // debugger;
             const renderComponent = component.render({
                 size: props.block.hasResize ? { width: props.block.width, height: props.block.height } : {},
                 props: props.block.props,
