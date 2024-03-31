@@ -4,7 +4,9 @@
 import { ElButton, ElInput } from 'element-plus';
 // import { preview } from "vite";
 import Range from '../components/Range';
-import MyEchart from '../components/myechart';
+import MyEchart from '../components/render/myechart.vue';
+import PreMyEchart from '../components/preview/myechart.vue';
+
 
 function createEditorConfig() {
     const componentList = [];
@@ -122,8 +124,8 @@ registerConfig.register({
         width: true,
         height: true,
     },
-    preview: () => <MyEchart></MyEchart>,
-    render: ({ props, size }) => <MyEchart></MyEchart>,
+    preview: () => <PreMyEchart></PreMyEchart>,
+    render: ({ props, size }) => <MyEchart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></MyEchart>,
+    
 });
-
 //封装更多组件
