@@ -4,8 +4,9 @@
 import { ElButton, ElInput } from 'element-plus';
 // import { preview } from "vite";
 import Range from '../components/Range';
-import MyEchart from '../components/render/myechart.vue';
-import PreMyEchart from '../components/preview/myechart.vue';
+import LineChart from '../components/echart/line.vue';
+import BarChart from '../components/echart/bar.vue';
+import PieChart from '../components/echart/pie.vue';
 
 
 function createEditorConfig() {
@@ -39,15 +40,19 @@ const createSelectProp = (label, option) => ({
     label,
     option,
 });
+const createSwitchProp = (label) => ({
+    type: 'switch',
+    label,
+});
 registerConfig.register({
     label: '文本',
     preview: () => '预览文本',
     render: ({ props }) => <span style={{ color: props.color, fontSize: props.size }}>{props.text || '文字内容'}</span>,
     key: 'text',
     props: {
-        text: createInputProp('文本内容'),
-        color: createColorProp('文本颜色'),
-        size: createSelectProp('字体大小', [
+        text: createInputProp(['文本内容']),
+        color: createColorProp(['文本颜色']),
+        size: createSelectProp(['字体大小'], [
             { label: '14px', val: '14px' },
             { label: '20px', val: '20px' },
             { label: '24px', val: '24px' },
@@ -68,15 +73,18 @@ registerConfig.register({
     ),
     key: 'button',
     props: {
-        text: createInputProp('按钮内容'),
-        type: createSelectProp('按钮类型', [
+        text:createInputProp(['按钮内容1','按钮内容2']),//  [createInputProp('按钮内容1'),createInputProp('按钮内容2')]
+        /* 
+        [{type: 'input',label:按钮内容1,},{type: 'input',label:按钮内容2,}]       {type: 'input',label:[按钮内容1,按钮内容2]}  
+        */
+        type: createSelectProp(['按钮类型'], [
             { label: '基础', val: 'primary' },
             { label: '成功', val: 'success' },
             { label: '警告', val: 'warning' },
             { label: '危险', val: 'danger' },
             { label: '文本', val: 'text' },
         ]),
-        size: createSelectProp('按钮大小', [
+        size: createSelectProp(['按钮大小'], [
             { label: '默认', val: '' },
             { label: '大', val: 'large' },
             { label: '小', val: 'small' },
@@ -124,8 +132,46 @@ registerConfig.register({
         width: true,
         height: true,
     },
-    preview: () => <PreMyEchart></PreMyEchart>,
-    render: ({ props, size }) => <MyEchart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></MyEchart>,
+    // preview: () => <PreLineChart></PreLineChart>,
+    preview: () => <LineChart id={'chart' + Math.random()}></LineChart>,
+    render: ({ props, size }) => <LineChart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></LineChart>,
+    props: {
+        text: createInputProp(['标题内容']),
+        // type: createSelectProp('按钮类型', [
+        //     { label: '基础', val: 'primary' },
+        //     { label: '成功', val: 'success' },
+        //     { label: '警告', val: 'warning' },
+        //     { label: '危险', val: 'danger' },
+        //     { label: '文本', val: 'text' },
+        // ]),
+        switch: createSwitchProp(['x轴','y轴']),
+        // size: createSelectProp('按钮大小', [
+        //     { label: '默认', val: '' },
+        //     { label: '大', val: 'large' },
+        //     { label: '小', val: 'small' },
+        // ]),
+    },
+});
+registerConfig.register({
+    label: '柱状图',
+    key: 'bar',
+    resize: {
+        width: true,
+        height: true,
+    },
+    preview: () => <BarChart id={'chart' + Math.random()}></BarChart>,
+    render: ({ props, size }) => <BarChart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></BarChart>,
+    
+});
+registerConfig.register({
+    label: '饼图',
+    key: 'pie',
+    resize: {
+        width: true,
+        height: true,
+    },
+    preview: () => <PieChart id={'chart' + Math.random()}></PieChart>,
+    render: ({ props, size }) => <PieChart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></PieChart>,
     
 });
 //封装更多组件

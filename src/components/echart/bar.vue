@@ -1,14 +1,21 @@
 <template>
-    <div ref="preChart" class="mychart"></div>
+    <div class="container">
+        <div :id="id" class="mychart"></div>
+    </div>
 </template>
 
 <script>
 import * as echarts from 'echarts';
 export default {
-    setup() {
+    props: {
+        id: {
+            type: String,
+            default: 'myChart',
+        },
+    },
+    setup(props) {
         onMounted(() => {
-            const { proxy } = getCurrentInstance();
-            const chartDom = proxy.$refs.preChart;
+            const chartDom = document.getElementById(props.id);
             const myChart = echarts.init(chartDom);
             const option = {
                 grid: {
@@ -27,11 +34,12 @@ export default {
                 series: [
                     {
                         data: [120, 200, 150, 80, 70, 110, 130],
-                        type: 'line',
+                        type: 'bar',
                     },
                 ],
             };
             myChart.setOption(option);
+
             const observer = new ResizeObserver(myChart.resize);
             observer.observe(chartDom);
         });
@@ -40,9 +48,16 @@ export default {
 </script>
 
 <style scoped>
-.mychart {
+.container {
     width: 200px;
     height: 200px;
+    resize: both;
+    margin: 0 auto;
+}
+
+.mychart {
+    width: 100%;
+    height: 100%;
     margin: 0 auto;
 }
 </style>

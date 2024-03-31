@@ -56,29 +56,41 @@ export default defineComponent({
                 );
             } else {
                 let component = config.componentMap[props.block.key];
-                if (component && component.props) {
+                if (component && component.props) {//组件的属性配置
                     //{text:{type:'xxx'},color:{},size:{}}
+                    debugger
                     content.push(
                         Object.entries(component.props).map(([propName, propConfig]) => {
                             return (
-                                <ElFormItem label={propConfig.label}>
-                                    {{
-                                        input: () => <ElInput v-model={state.editData.props[propName]}></ElInput>,
-                                        color: () => <ElColorPicker v-model={state.editData.props[propName]}></ElColorPicker>,
-                                        select: () => (
-                                            <ElSelect v-model={state.editData.props[propName]}>
-                                                {propConfig.option.map((option) => {
-                                                    return <ElOption label={option.label} value={option.val}></ElOption>;
-                                                })}
-                                            </ElSelect>
-                                        ),
-                                    }[propConfig.type]()}
-                                </ElFormItem>
+                                propConfig.label.map(label => {
+                                    state.editData.props[propName] = state.editData.props[propName] || '';
+                                    return (
+                                    <ElFormItem label={label}>
+                                        {{
+                                            input: () => (
+                                                <>
+                                                    <ElInput v-model={state.editData.props[propName]}></ElInput>
+                                                </>
+                                            ),
+                                            color: () => <ElColorPicker v-model={state.editData.props[propName] }></ElColorPicker>,
+                                            select: () => (
+                                                <ElSelect v-model={state.editData.props[propName]}>
+                                                    {propConfig.option.map((option) => {
+                                                        return <ElOption label={option.label} value={option.val}></ElOption>;
+                                                    })}
+                                                </ElSelect>
+                                            ),
+                                            switch: () => <ElSwitch v-model={state.editData.props[propName] }></ElSwitch>,
+                                        }[propConfig.type]()}
+
+                                    </ElFormItem>)
+                                })
                             );
                         }),
                     );
+                    debugger
                 }
-                if (component && component.model) {
+                if (component && component.model) {//model中的双向绑定字段
                     content.push(                           
                         //                                     default   标签名
                         Object.entries(component.model).map(([modelName, label]) => {

@@ -27,6 +27,11 @@ export default {
                 xAxis: {
                     type: 'category',
                     data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    // axisLabel: {
+                    //     fontSize: 12, // rotate: 45
+                    //     interval: 0, // 设置文字间隔 0强制显示所有文字
+                    //     overflow: 'break', // 设置文字溢出处理方式
+                    // },
                 },
                 yAxis: {
                     type: 'value',
