@@ -57,13 +57,16 @@ export default defineComponent({
             } else {
                 let component = config.componentMap[props.block.key];
                 if (component && component.props) {//组件的属性配置
-                    //{text:{type:'xxx'},color:{},size:{}}
-                    debugger
+                    //{text:{type:'xxx'},color:{},size:{}} {type: 'input',label:[按钮内容1,按钮内容2]} 
+                    // debugger
                     content.push(
                         Object.entries(component.props).map(([propName, propConfig]) => {
                             return (
-                                propConfig.label.map(label => {
-                                    state.editData.props[propName] = state.editData.props[propName] || '';
+                                propConfig.label.map((label,index) => {
+                                    //label:[x轴,y轴] props[x轴]=true props[y轴]=true 
+                                    //state.editData.props[propName]:x轴 
+                                    //设置默认值
+                                    // state.editData.props[label] = state.editData.props[label] || label;
                                     return (
                                     <ElFormItem label={label}>
                                         {{
@@ -80,15 +83,16 @@ export default defineComponent({
                                                     })}
                                                 </ElSelect>
                                             ),
-                                            switch: () => <ElSwitch v-model={state.editData.props[propName] }></ElSwitch>,
+                                            switch: () => <ElSwitch v-model={state.editData.props[label] }></ElSwitch>,
                                         }[propConfig.type]()}
 
                                     </ElFormItem>)
                                 })
+                                // )
                             );
                         }),
                     );
-                    debugger
+                    // debugger
                 }
                 if (component && component.model) {//model中的双向绑定字段
                     content.push(                           

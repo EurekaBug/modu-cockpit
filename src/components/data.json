@@ -26,6 +26,11 @@
                 "size": "small"
             }
         },
-        { "top": 300, "left": 300, "zIndex": 1, "key": "input", "props": {},"model":{} }
+        { "top": 300, "left": 300, "zIndex": 1, "key": "input", "props": {},"model":{} },
+        {"top":400,"left":400,"zIndex":1,"key":"line","props":{
+            "text":"标题内容",
+            "x轴":true,
+            "y轴":true
+        }}
     ]
 }

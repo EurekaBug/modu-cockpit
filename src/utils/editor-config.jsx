@@ -30,19 +30,23 @@ export let registerConfig = createEditorConfig();
 const createInputProp = (label) => ({
     type: 'input',
     label,
+    // default: '',
 });
 const createColorProp = (label) => ({
     type: 'color',
     label,
+    // default: '#000',
 });
 const createSelectProp = (label, option) => ({
     type: 'select',
     label,
     option,
+    // default: option[0].val,
 });
 const createSwitchProp = (label) => ({
     type: 'switch',
     label,
+    // default: false,
 });
 registerConfig.register({
     label: '文本',
@@ -134,7 +138,7 @@ registerConfig.register({
     },
     // preview: () => <PreLineChart></PreLineChart>,
     preview: () => <LineChart id={'chart' + Math.random()}></LineChart>,
-    render: ({ props, size }) => <LineChart style={{ height: size.height + 'px', width: size.width + 'px' }} size={props.size} id={'chart' + Math.random()}></LineChart>,
+    render: ({ props, size }) => <LineChart style={{ height: size.height + 'px', width: size.width + 'px' }} data={props} size={props.size} id={'chart' + Math.random()}></LineChart>,
     props: {
         text: createInputProp(['标题内容']),
         // type: createSelectProp('按钮类型', [

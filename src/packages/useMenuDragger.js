@@ -16,16 +16,32 @@ export function useMenuDragger(containerRef, data) {
         data.value = {
             ...data.value,
             blocks: [
-                ...blocks,
-                {
-                    top: e.offsetY,
-                    left: e.offsetX,
-                    zIndex: 1,
-                    key: currentComponent.key,
-                    alignCenter: true, //松手后居中
-                    props: {},
-                    model: {},
+            ...blocks,
+            {
+                top: e.offsetY,
+                left: e.offsetX,
+                zIndex: 1,
+                key: currentComponent.key,
+                alignCenter: true, //松手后居中
+                props: {
+                ...(currentComponent.key === 'text' ? {
+                    "text": '文本内容',
+                    "size": '20px',
+                    "color": '#000',
+                } : {}),
+                ...(currentComponent.key === 'button' ? { 
+                    "text":"按钮内容",
+                    "type":"",
+                    "size":""
+                 } : {}),
+                ...(currentComponent.key === 'line' ? { 
+                    "text":"标题内容",
+                    "x轴":true,
+                    "y轴":true,
+                 } : {}),
                 },
+                model: {},
+            },
             ],
         };
         currentComponent = null;
